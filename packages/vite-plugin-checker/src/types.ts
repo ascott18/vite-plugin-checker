@@ -1,5 +1,6 @@
 import type { HMRPayload, ServerOptions, ConfigEnv } from 'vite'
 import type { Worker } from 'worker_threads'
+import type { VlsOptions } from './checkers/vls/initParams'
 
 /* ----------------------------- userland plugin options ----------------------------- */
 
@@ -25,9 +26,7 @@ export type VueTscConfig =
 /** vls checker configuration */
 export type VlsConfig =
   | boolean
-  | Partial<{
-      // TODO: support vls config
-    }>
+  | DeepPartial<VlsOptions>
 
 /** ESLint checker configuration */
 export type EslintConfig =
@@ -157,3 +156,10 @@ export interface CheckerDiagnostic {
 export type CreateDiagnostic<T extends BuildInCheckerNames = any> = (
   config: Pick<BuildInCheckers, T> & SharedConfig
 ) => CheckerDiagnostic
+
+
+/* ----------------------------- generic utility types ----------------------------- */
+
+export type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+};
