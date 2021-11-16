@@ -149,11 +149,12 @@ async function prepareClientConnection(workspaceUri: URI, severity: DiagnosticSe
       return
     }
 
+    publishDiagnostics.diagnostics = filterDiagnostics(publishDiagnostics.diagnostics, severity);
+
     if (!publishDiagnostics.diagnostics.length) {
       return
     }
-
-    publishDiagnostics.diagnostics = filterDiagnostics(publishDiagnostics.diagnostics, severity);
+    
     const res = await normalizePublishDiagnosticParams(publishDiagnostics)
     const normalized = diagnosticToViteError(res)
     console.log(os.EOL)
